@@ -2,17 +2,13 @@ package observer2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class EstacaoMeteorologica  implements Subject {
+public class EstacaoMeteorologica extends Observable {
 	
-	private List<Observer> observers;
 	private float temperatura;
 	private float umidade;
 	private float pressao;
-	
-	public EstacaoMeteorologica() {
-		observers = new ArrayList<>();
-	}
 	
 	public void setMedicoes(float temperatura, 
 			                float umidade,
@@ -21,30 +17,21 @@ public class EstacaoMeteorologica  implements Subject {
 		this.umidade = umidade;
 		this.pressao = pressao;
 		
+		setChanged();
 		notifyObservers();
 	}
-
-	@Override
-	public void addObserver(Observer observer) {
-		observers.add(observer);
+	
+	public float getTemperatura() {
+		return temperatura;
 	}
-
-	@Override
-	public void removeOberserver(Observer observer) {
-		int index = observers.indexOf(observer);
-		
-		if(index > -1) {
-			observers.remove(observer);
-		}
-		
+	
+	public float getUmidade() {
+		return umidade;
 	}
-
-	@Override
-	public void notifyObservers() {
-		for(Observer o: observers) {
-			o.update(temperatura, umidade, pressao);
-		}
+	
+	public float getPressao() {
+		return pressao;
 	}
 	 
-	
 }
+

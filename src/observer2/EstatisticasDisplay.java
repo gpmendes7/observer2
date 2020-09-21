@@ -1,13 +1,16 @@
 package observer2;
 
+import java.util.Observable;
+import java.util.Observer;
+
 public class EstatisticasDisplay implements Observer {
 	
-	private Subject subject;
+	private Observable subject;
 	private float temperatura;
 	private float umidade;
 	private float pressao;
 	
-	public EstatisticasDisplay(Subject subject) {
+	public EstatisticasDisplay(Observable subject) {
 		this.subject = subject;
 		this.subject.addObserver(this);
 	}
@@ -19,12 +22,14 @@ public class EstatisticasDisplay implements Observer {
 	}
 
 	@Override
-	public void update(float temperatura, 
-			           float umidade, 
-			           float pressao) {
-		this.temperatura = temperatura;
-		this.umidade = umidade;
-		this.pressao = pressao;
+	public void update(Observable observable, 
+			           Object data) {
+		
+		EstacaoMeteorologica estacao = (EstacaoMeteorologica) observable;
+		
+		this.temperatura = estacao.getTemperatura();
+		this.umidade = estacao.getUmidade();
+		this.pressao = estacao.getPressao();
 		display();
 	}
 	

@@ -1,13 +1,16 @@
 package observer2;
 
+import java.util.Observable;
+import java.util.Observer;
+
 public class MediaDisplay implements Observer {
 	
-	private Subject subject;
+	private Observable subject;
 	private float temperaturaMin, temperaturaMax, temperaturaMed;
 	private float umidadeMin, umidadeMax, umidadeMed;
 	private float pressaoMin, pressaoMax, pressaoMed;
 	
-	public MediaDisplay(Subject subject) {
+	public MediaDisplay(Observable subject) {
 		this.subject = subject;
 		this.subject.addObserver(this);
 	}
@@ -19,12 +22,14 @@ public class MediaDisplay implements Observer {
 	}
 
 	@Override
-	public void update(float temperatura, 
-			           float umidade, 
-			           float pressao) {
-		mediaTemperatura(temperatura);
-		mediaUmidade(umidade);
-		mediaPressao(pressao);
+	public void update(Observable observable,
+			           Object data) {
+		
+		EstacaoMeteorologica estacao = (EstacaoMeteorologica) observable;
+		
+		mediaTemperatura(estacao.getTemperatura());
+		mediaUmidade(estacao.getUmidade());
+		mediaPressao(estacao.getPressao());
 		display();
 	}
 	
